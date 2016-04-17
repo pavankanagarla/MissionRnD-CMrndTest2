@@ -47,9 +47,50 @@ First Island in DTD ie 'D' occurs alphabatically before 'H' and 'Z')
 #include <stdlib.h>
 #include <stdlib.h>
 #include <stdio.h>
+void copy(char *hacklist, int st_index, int end_index,char** temp,int res_index ){
+	int i;
+	int j;
+	for (i = st_index, j = 0; i < end_index; i++, j++){
+		temp[res_index][j] = hacklist[i];
+	}
+	temp[res_index][j] = '\0';
+}
+int find_route(char *hacklist, char *codelist, char *res) {
+	int i;
+	int j = 0;
+	int k = 0;
+	int z;
+	int result_index = 0;
+	int 
+	char **temp;
+	temp = (char**)malloc(30 * sizeof(char*));
+	for (i = 0; i < 30; i++)
+		temp[i] = (char*)malloc(26 * sizeof(char));
+	i = 0;
+	while (hacklist[i] != '\0'){
+		if (hacklist[i] == codelist[j]){
+			k = i;
+			while (hacklist[k] == codelist[i]){
+				k++;
+				i++;
+			}
+			if ((k - i) > 0){
+				 copy(hacklist, i, k,temp,result_index);
+				 result_index++;
+			}
+		}
+	}
+	for (z = 0; z < result_index; z++){
 
-
-char * find_common_route(char * hacklist, char *codelist, int *cost){
-	return NULL;
+	}
 }
 
+char * find_common_route(char * hacklist, char *codelist, int *cost){
+	if (hacklist == NULL || codelist == NULL){
+		cost = 0;
+		return NULL;
+	}
+	char *result = (char*)malloc(26 * sizeof(char));
+	find_route(hacklist, codelist, result);
+	return NULL;
+}

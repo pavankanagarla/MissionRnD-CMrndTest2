@@ -68,7 +68,35 @@ struct node{
 	struct node *right;
 };
 
+void count_ways(struct node *startcity, int k, int *shortestpath, int *shortestpathlen, int sum, int noOfNodes, int i, int *ways) {
+	if (startcity->right == NULL && startcity->left == NULL) {
+		if (sum + startcity->data == k) {
+			if (*shortestpathlen > noOfNodes || *shortestpathlen == 0) {
+				*shortestpathlen = noOfNodes;
+				shortestpath[i] = startcity->data;
+				while (shortestpath[++i] != 0) {
+					shortestpath[i] = 0;
+				}
+			}
+			else
+				shortestpath[i] = startcity->data;
+			*ways = *ways + 1;
+		}
+	}
+	else {
+		sum += startcity->data;
+		noOfNodes += 1;
+		shortestpath[i++] = startcity->data;
+		count_ways(startcity->left, k, shortestpath, shortestpathlen, sum, noOfNodes, i, ways);
+		count_ways(startcity->right, k, shortestpath, shortestpathlen, sum, noOfNodes, i, ways);
+	}
+}
+
 int mangocity_count_ways(struct node *startcity,int k, int *shortestpath,int *shortestpathlen){
 	//Just Copy values in shortestpath and shortestpathlen .Dont allocate memory for it .
-	return -1;
+	if (startcity == NULL)
+		return -1;
+	int ways = 0;
+	count_ways(startcity, k, shortestpath, shortestpathlen, 0, 0, 0, &ways);
+	return ways;
 }
